@@ -1,0 +1,34 @@
+
+<div class="p-4">
+  <div class="p-4 grid lg:grid-cols-1 gap-4">
+    <div class="">
+      <h1 class="flex justify-center">Números da Sorte</h1>
+      <h5 class="flex justify-center">Consulte se seu número já foi sorteado</h5>
+    <div class="p-4 flex justify-center">
+      <button (click)="gerarNumero()"  mat-flat-button color="primary">Gerar numeros</button>
+    </div>
+  </div>
+  <ng-container>
+   <div class="grid grid-cols-6 p-2">
+      <app-card-number class="m-2 flex justify-center" [number]="numeros" *ngFor="let numeros of concursoGerado!.numerosGerados"></app-card-number>
+   </div>
+
+   <div *ngIf="!isConcursoGerado()">
+    <app-alert-card 
+      *ngIf="concursoGerado.numeroJaSorteado; else alertSuccess" 
+      [textContent]="'Número já sorteado'" 
+      [classAlert]="'alert-danger'">
+    </app-alert-card>
+  </div>
+  
+  <ng-template #alertSuccess>
+    <app-alert-card 
+      [textContent]="'Número não sorteado'" 
+      [classAlert]="'alert-success'">
+    </app-alert-card>
+  </ng-template>
+
+  </ng-container>
+  </div>
+</div>
+  

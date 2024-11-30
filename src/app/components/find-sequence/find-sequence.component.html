@@ -1,0 +1,64 @@
+<div class="p-4">
+    <div class="p-4 grid lg:grid-cols-1 gap-4">
+        <div class="">
+            <h1 class="flex justify-center">Números da Sorte</h1>
+            <h5 class="flex justify-center">Consulte se sua sequência já foi sorteada</h5>
+
+            <ng-container>
+                <div class="grid lg:grid-cols-10 md:grid-cols-6 sm:grid-cols-4 p-2">
+                    <app-number-selected class="m-2 flex justify-center"
+                     [number]="numeros" *ngFor="let numeros of numeros; let i = index"
+                     [isSelected]="selectedStates[i]"
+                     (cardClick)="toggleSelection(i, numeros)"
+                     ></app-number-selected>
+                </div>
+            </ng-container>
+        </div>
+        <div class="p-4 flex justify-center gap-2">
+            <button [disabled]="disableButton()" (click)="searchNumbers()" mat-flat-button color="primary">Buscar</button>
+            <button (click)="limpar()" mat-flat-button color="primary">Limpar</button>
+        </div>
+        <div *ngIf="!isConcursoGerado()">
+            <div *ngIf="resultadoBusca.numeroJaSorteado; else alertSuccess" >
+                <app-alert-card 
+                [textContent]="'Número já sorteado'" 
+                [classAlert]="'alert-danger'">
+              </app-alert-card>
+              <table mat-table class="mat-elevation-z8" [dataSource]="dataSource">
+                
+                  <!-- Name Column -->
+                  <ng-container matColumnDef="concurso">
+                    <th mat-header-cell *matHeaderCellDef> Concurso Nº </th>
+                    <td mat-cell *matCellDef="let element"> {{resultadoBusca.concursoNumero}} </td>
+                  </ng-container>
+                
+                  <!-- Weight Column -->
+                  <ng-container matColumnDef="data">
+                    <th mat-header-cell *matHeaderCellDef> Data </th>
+                    <td mat-cell *matCellDef="let element"> {{resultadoBusca.data | date:"dd/MM/yyyy"}} </td>
+                  </ng-container>
+                
+                  <!-- Symbol Column -->
+                  <ng-container matColumnDef="numeros">
+                    <th mat-header-cell *matHeaderCellDef> Numeros </th>
+                    <td mat-cell *matCellDef="let element"> {{resultadoBusca.numeros}} </td>
+                  </ng-container>
+                
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+            
+          </div>
+          
+          <ng-template #alertSuccess>
+            <app-alert-card
+              [textContent]="'Número não sorteado'" 
+              [classAlert]="'alert-success'">
+            </app-alert-card> 
+              
+          </ng-template>
+    </div>
+   
+</div>
+
